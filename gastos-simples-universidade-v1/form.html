@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Controle de Gastos</title>
+    <link rel="stylesheet" href="css/form.css">
+    <link rel="shortcut icon" href="img/icons8-saco-de-dinheiro-96.ico" type="image/x-icon">
+
+</head>
+<body>
+    <header>
+        <div>
+            <h1>Controle de Gastos</h1>
+        </div>
+    </header>
+    <main>
+        <section>
+            <div class="div-form">
+                <form action="salvar.php" method="post" class="form1">
+                    <fieldset class="fieldset1">
+                        <legend><strong>Adicionar Gasto</strong></legend>
+                        <label for="descricao">Descrição: </label>
+                        <input type="text" name="descricao" id="descricao" required> <br><br>
+
+                        <label for="valor">Valor (R$): </label>
+                        <input type="number" name="valor" id="valor" step=0.01 required> <br><br>
+
+                        <label for="categoria">Categoria: </label>
+                        <input type="text" name="categoria" id="categoria"><br><br>
+
+                        <label for="data">Data: </label>
+                        <input type="date" name="data" id="data"> <br><br>
+
+                        <button type="button" onclick="window.location.href='index.php'">🔙 Voltar</button>
+
+                        <input type="submit" value="&#128190; Salvar Gasto">
+                        
+                </fieldset>
+                </form>
+                
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div>
+            <p>&copy; 2025 - Projeto de Controle de Gastos</p>
+        </div>
+    </footer>
+
+</body>
+</html>

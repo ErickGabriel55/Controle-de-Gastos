@@ -1,0 +1,65 @@
+/* Reset básico */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html, body {
+    height: 100%;
+    font-family: Arial, sans-serif;
+    background-color: #f5f5f5;
+    color: #333;
+}
+
+/* Estrutura geral */
+body {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+/* Header */
+header {
+    background-color: #33783f;
+    color: white;
+    padding: 20px;
+    text-align: center;
+}
+
+/* Main (ocupa o espaço central) */
+main {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+}
+
+section div {
+    text-align: center;
+}
+
+section a {
+    display: inline-block;
+    margin: 10px;
+    padding: 10px 20px;
+    background-color: #27ae60;
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+}
+
+section a:hover {
+    background-color: #219150;
+}
+
+/* Footer */
+footer {
+    background-color: #33783f;
+    color: white;
+    text-align: center;
+    padding: 15px;
+    font-size: 0.9em;
+}
