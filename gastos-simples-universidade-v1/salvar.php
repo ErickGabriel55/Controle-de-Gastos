@@ -8,8 +8,9 @@
     
     $sql = "INSERT INTO controle_gastos.gastos(descricao, valor, categoria, data) VALUES ('$descricao', $valor, '$categoria', '$data')";
 
-    if (mysqli_query($mysqli, $sql)){
-        echo "Usuário cadastrado com sucesso!";
+    if (mysqli_query($mysqli, $sql)){ // a mysqli_query($mysqli, $sql) envia a consulta ao banco de dados de forma mais segura
+        header("Location: listar.php");
+        exit();
         /*echo '<pre>';
         print_r($_POST);
         echo '</pre>';*/
