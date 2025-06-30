@@ -1,9 +1,11 @@
 <?php
 include("conexao.php");
 
+
+
 // Faz a consulta no banco
 $sql = "SELECT * FROM gastos ORDER BY data DESC"; // Consulta MySQL
-$resultado = mysqli_query($mysqli, $sql);
+$resultado = mysqli_query($mysqli, $sql); /* executa a $sql através do que está no arquivo conexao.php e com a extensão mysqli improved. sintaxe: mysqli_query(conexao, consulta_sql). DQL retorna mysqli_result para ser usado com o fetch, DML retorna true (sucesso) ou false (erro) em caso de erro para checar se funcionou.*/
 ?>
 
 <!DOCTYPE html>
@@ -13,6 +15,7 @@ $resultado = mysqli_query($mysqli, $sql);
     <title>Controle de Gastos</title>
     <link rel="stylesheet" href="css/listar.css">
     <link rel="shortcut icon" href="img/icons8-saco-de-dinheiro-96.ico" type="image/x-icon">
+    
 </head>
 <body>
     <header>
@@ -21,6 +24,13 @@ $resultado = mysqli_query($mysqli, $sql);
 
     <main>
         <section>
+            <?php 
+                if (isset($_GET["mensagem"]) && !empty($_GET["mensagem"])): ?>
+                    <div class="alert-mensagem">
+                        <?php echo htmlspecialchars($_GET["mensagem"]); ?>
+                    </div>
+            <?php endif; ?>
+
             <table border="1" cellpadding="10">
                 <thead>
                     <tr>
@@ -32,7 +42,7 @@ $resultado = mysqli_query($mysqli, $sql);
                     </tr>
                 </thead>
                 <tbody>
-                    <?php while($linha = mysqli_fetch_assoc($resultado)): /* fetch - buscar, recuperar, trazer de volta. mysqli_fetch_assoc() extrai uma linha de resultado da consulta SQL como um array associativo, onde as chaves do array são os nomes das colunas do banco. e com o while é inha por linha */?>
+                    <?php while($linha = mysqli_fetch_assoc($resultado)): /* Fetch - buscar, recuperar, trazer de volta. mysqli_fetch_assoc() extrai uma linha de resultado da consulta SQL como um array associativo, onde as chaves do array são os nomes das colunas do banco. E com o while é linha por linha */?>
                         <tr>
                             <td><?= htmlspecialchars($linha['descricao']) ?></td> <!-- htmlspecialchars() evita problemas com acentos ou codigos maliciosos -->
                             <td><?= number_format($linha['valor'], 2, ',', '.') ?></td> <!-- Formata o valor com vírgula e duas casas decimais. -->

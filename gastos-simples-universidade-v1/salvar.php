@@ -1,15 +1,16 @@
 <?php 
     include ('conexao.php');
     
-    $descricao = $_POST['descricao'];
+    // Recebidos através do action do form.html
+    $descricao = $_POST['descricao']; // coleta através do metodo e do name
     $valor = $_POST['valor'];
     $categoria = $_POST['categoria'];
     $data = $_POST['data'];
     
     $sql = "INSERT INTO controle_gastos.gastos(descricao, valor, categoria, data) VALUES ('$descricao', $valor, '$categoria', '$data')";
 
-    if (mysqli_query($mysqli, $sql)){ // a mysqli_query($mysqli, $sql) envia a consulta ao banco de dados de forma mais segura
-        header("Location: listar.php");
+    if (mysqli_query($mysqli, $sql)){ 
+        header("Location: listar.php?mensagem=Gasto salvo com sucesso!");/* envia um cabeçalho http ao navegador, antes  do conteudo ser exibido, inclusive só pode ser usada antes de um echo, normalmente usada para redirecionamento, como acima. */
         exit();
         /*echo '<pre>';
         print_r($_POST);

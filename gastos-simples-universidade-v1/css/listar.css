@@ -31,6 +31,18 @@ h2 {
     color: #444;
 }
 
+.alert-mensagem{
+    padding: 10px;
+    background-color: #f9d877;
+    color: #000000;
+    border: 1px solid #ffeeba;
+    border-radius: 5px;
+    text-align: start;
+    width: 100%;
+    font-weight: bold;
+}
+
+
 table {
     width: 100%;
     border-collapse: collapse;
