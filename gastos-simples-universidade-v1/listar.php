@@ -1,11 +1,8 @@
 <?php
 include("conexao.php");
 
-
-
-// Faz a consulta no banco
-$sql = "SELECT * FROM gastos ORDER BY data DESC"; // Consulta MySQL
-$resultado = mysqli_query($mysqli, $sql); /* executa a $sql através do que está no arquivo conexao.php e com a extensão mysqli improved. sintaxe: mysqli_query(conexao, consulta_sql). DQL retorna mysqli_result para ser usado com o fetch, DML retorna true (sucesso) ou false (erro) em caso de erro para checar se funcionou.*/
+$sql = "SELECT * FROM gastos ORDER BY data DESC";
+$resultado = mysqli_query($mysqli, $sql);
 ?>
 
 <!DOCTYPE html>
@@ -14,21 +11,19 @@ $resultado = mysqli_query($mysqli, $sql); /* executa a $sql através do que est�
     <meta charset="UTF-8">
     <title>Controle de Gastos</title>
     <link rel="stylesheet" href="css/listar.css">
-    <link rel="shortcut icon" href="img/icons8-saco-de-dinheiro-96.ico" type="image/x-icon">
-    
+    <link rel="shortcut icon" href="img/dinheiro.ico" type="image/x-icon">
 </head>
 <body>
     <header>
-        <h1>Gastos Cadastrados</h1>
+        <h1>Controle de Gastos</h1>
     </header>
 
     <main>
         <section>
-            <?php 
-                if (isset($_GET["mensagem"]) && !empty($_GET["mensagem"])): ?>
-                    <div class="alert-mensagem">
-                        <?php echo htmlspecialchars($_GET["mensagem"]); ?>
-                    </div>
+            <?php if (isset($_GET["mensagem"]) && !empty($_GET["mensagem"])): ?>
+                <div class="alert-mensagem">
+                    <?= htmlspecialchars($_GET["mensagem"]) ?>
+                </div>
             <?php endif; ?>
 
             <table border="1" cellpadding="10">
@@ -42,22 +37,34 @@ $resultado = mysqli_query($mysqli, $sql); /* executa a $sql através do que est�
                     </tr>
                 </thead>
                 <tbody>
-                    <?php while($linha = mysqli_fetch_assoc($resultado)): /* Fetch - buscar, recuperar, trazer de volta. mysqli_fetch_assoc() extrai uma linha de resultado da consulta SQL como um array associativo, onde as chaves do array são os nomes das colunas do banco. E com o while é linha por linha */?>
+                    <?php while($linha = mysqli_fetch_assoc($resultado)): ?>
                         <tr>
-                            <td><?= htmlspecialchars($linha['descricao']) ?></td> <!-- htmlspecialchars() evita problemas com acentos ou codigos maliciosos -->
-                            <td><?= number_format($linha['valor'], 2, ',', '.') ?></td> <!-- Formata o valor com vírgula e duas casas decimais. -->
+                            <td><?= htmlspecialchars($linha['descricao']) ?></td>
+                            <td><?= number_format($linha['valor'], 2, ',', '.') ?></td>
                             <td><?= htmlspecialchars($linha['categoria']) ?></td>
-                            <td><?= date('d/m/Y', strtotime($linha['data'])) ?></td> <!-- formata a data no estilo brasileiro dd/mm/yyyy -->
+                            <td><?= date('d/m/Y', strtotime($linha['data'])) ?></td>
                             <td>
-                                <a href="excluir.php?id=<?= $linha['id'] ?>" onclick="return confirm('Tem certeza que deseja excluir?')" class="botao-excluir">&#x1F5D1; Excluir</a>
+                                <a href="excluir.php?id=<?= urlencode($linha['id']) ?>" onclick="return confirm('Tem certeza que deseja excluir?')" class="botao-excluir">&#x1F5D1; Excluir</a>
                             </td>
                         </tr>
                     <?php endwhile; ?>
                 </tbody>
             </table>
+
             <div class="voltar-centralizado">
                 <a href="index.html" class="btn-voltar">&#x1F519; Voltar</a>
             </div>
+
+            <?php
+                $sql_total = "SELECT SUM(valor) AS total_gastos FROM gastos";
+                $resultado_total = mysqli_query($mysqli, $sql_total);
+                $linha_total = mysqli_fetch_assoc($resultado_total);
+                $total = $linha_total['total_gastos'] ?? 0;
+            ?>
+
+            <p class="total-gastos">
+                <strong>Total de Gastos:</strong> R$ <?= number_format($total, 2, ',', '.') ?>
+            </p>
         </section>
     </main>
 
@@ -66,6 +73,5 @@ $resultado = mysqli_query($mysqli, $sql); /* executa a $sql através do que est�
             <p>&copy; 2025 - Projeto de Controle de Gastos</p>
         </div>
     </footer>
-
 </body>
 </html>

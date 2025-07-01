@@ -1,25 +1,22 @@
 <?php 
     include "conexao.php";
 
-    if (isset($_GET["id"]) && !empty($_GET["id"]))
-    {
-        $sql = "DELETE FROM gastos WHERE id = " .$_GET["id"];
-        $resultado = mysqli_query($mysqli, $sql);
+    if (isset($_GET["id"]) && is_numeric($_GET["id"])) {
+        $id = intval($_GET["id"]);
 
-        if($resultado)
-        {
-            header("Location: ./listar.php?mensagem=Excluído com sucesso!");
-            exit();
+        $stmt = $mysqli->prepare("DELETE FROM gastos WHERE id = ?");
+        $stmt->bind_param("i", $id);
+
+        if ($stmt->execute()) {
+            header("Location: listar.php?mensagem=Excluído com sucesso!");
+        } else {
+            header("Location: listar.php?mensagem=Erro ao excluir.");
         }
-        else
-        {
-            header("Location: ./listar.php?mensagem=Ocorreu algum erro!");
-            exit();
-        }
-    }
-    else
-    {
-        header("Location: ./listar.php?mensagem=Selecione um gasto para apagar!!!");
+
+        $stmt->close();
+        exit();
+    } else {
+        header("Location: listar.php?mensagem=Selecione um gasto válido para apagar!");
         exit();
     }
 ?>

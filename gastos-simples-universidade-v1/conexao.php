@@ -7,6 +7,5 @@
     $mysqli = new mysqli($hostname, $usuario,  $senha, $bancoDeDados,); /* Variavel com o objeto do tipo mysqli, a sequencia acima é obrigatória para funcionamento correto.*/
     if ($mysqli->connect_errno){
         echo "Falha ao conectar: (" . $mysqli->connect_errno . ")" . $mysqli->connect_errno;
-    } 
-    
+    }   
 ?>

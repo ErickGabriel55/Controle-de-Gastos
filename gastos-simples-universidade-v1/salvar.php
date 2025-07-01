@@ -1,24 +1,32 @@
 <?php 
-    include ('conexao.php');
-    
-    // Recebidos através do action do form.html
-    $descricao = $_POST['descricao']; // coleta através do metodo e do name
-    $valor = $_POST['valor'];
-    $categoria = $_POST['categoria'];
-    $data = $_POST['data'];
-    
-    $sql = "INSERT INTO controle_gastos.gastos(descricao, valor, categoria, data) VALUES ('$descricao', $valor, '$categoria', '$data')";
+    include('conexao.php');
 
-    if (mysqli_query($mysqli, $sql)){ 
-        header("Location: listar.php?mensagem=Gasto salvo com sucesso!");/* envia um cabeçalho http ao navegador, antes  do conteudo ser exibido, inclusive só pode ser usada antes de um echo, normalmente usada para redirecionamento, como acima. */
+    if (
+        isset($_POST['descricao'], $_POST['valor'], $_POST['categoria'], $_POST['data']) &&
+        !empty($_POST['descricao']) &&
+        !empty($_POST['valor']) &&
+        !empty($_POST['data']) // categoria pode estar vazia
+    ) {
+        $descricao = $_POST['descricao'];
+        $valor = floatval($_POST['valor']);
+        $categoria = $_POST['categoria'];
+        $data = $_POST['data'];
+
+        $stmt = $mysqli->prepare("INSERT INTO gastos (descricao, valor, categoria, data) VALUES (?, ?, ?, ?)");
+        $stmt->bind_param("sdss", $descricao, $valor, $categoria, $data);
+
+        if ($stmt->execute()) {
+            header("Location: listar.php?mensagem=Gasto salvo com sucesso!");
+            exit();
+        } else {
+            echo "Erro ao salvar: " . $stmt->error;
+        }
+
+        $stmt->close();
+    } else {
+        header("Location: listar.php?mensagem=Preencha os campos obrigatórios.");
         exit();
-        /*echo '<pre>';
-        print_r($_POST);
-        echo '</pre>';*/
     }
-    else{
-        echo "Erro " . mysqli_connect_error($mysqli);
-    }
-    mysqli_close($mysqli);
 
+    $mysqli->close();
 ?>
